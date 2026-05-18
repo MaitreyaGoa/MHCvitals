@@ -110,13 +110,13 @@
 </nav>
 <div class="page-hdr">
   <h1>Book an <em>Appointment</em></h1>
-  <p>Select your preferred date and time slot — June &amp; July 2025</p>
+  <p>Select your preferred date and time slot</p>
 </div>
 <div class="booking-main">
   <div>
     <div class="card">
       <div class="month-tabs" id="monthTabs"></div>
-      <div class="cal-title" id="calTitle">June 2025</div>
+      <div class="cal-title" id="calTitle"></div>
       <div class="cal-grid" id="calGrid"></div>
     </div>
     <div class="card" style="margin-top:20px;">
@@ -178,7 +178,18 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby12qiInEZaqPqlI5gEN
 
 const SK='mhcv3';
 const SLOTS=[{id:'AM',label:'☀️  11:00 AM – 12:00 PM'},{id:'PM1',label:'🌅  5:00 PM – 6:00 PM'},{id:'PM2',label:'🌆  6:00 PM – 7:00 PM'}];
-const MONTHS=[{y:2025,m:5,lbl:'June 2025'},{y:2025,m:6,lbl:'July 2025'}];
+// Auto-generate current month + next month — works forever, no manual updates needed
+const MONTHS = (()=>{
+  const now = new Date();
+  return [0,1].map(offset=>{
+    const d = new Date(now.getFullYear(), now.getMonth()+offset, 1);
+    return {
+      y: d.getFullYear(),
+      m: d.getMonth(),
+      lbl: d.toLocaleString('en-IN',{month:'long',year:'numeric'})
+    };
+  });
+})();
 const LIVE = !!SCRIPT_URL;
 
 let mIdx=0,selD=null,selS=null,allSlots={};
