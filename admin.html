@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin – MHC Vitals</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#1a2b4a; --teal:#3aafa9; --teal-dark:#2a8f8a; --green:#4caf7d; --off:#f4f8f7; --slate:#5a6a7a; --amber:#f59e0b; --emerald:#22c55e; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ font-family:'DM Sans',sans-serif; background:var(--off); color:var(--navy); min-height:100vh; }
+
+  /* LOGIN SCREEN */
+  .login-screen { min-height:100vh; background:linear-gradient(160deg,var(--navy) 0%,#1e3a5f 55%,var(--teal-dark) 100%); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .login-screen::before { content:''; position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:600px; height:400px; background:radial-gradient(ellipse,rgba(58,175,169,0.14) 0%,transparent 68%); }
+  .login-box { background:white; border-radius:28px; padding:48px 44px; max-width:420px; width:92%; box-shadow:0 30px 80px rgba(26,43,74,0.35); text-align:center; position:relative; }
+  .login-logo { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:28px; }
+  .login-logo .mhc { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--navy); }
+  .login-logo .vitals { font-size:10px; font-weight:600; color:var(--teal); letter-spacing:3px; text-transform:uppercase; }
+  .login-badge { display:inline-block; background:rgba(58,175,169,0.1); color:var(--teal-dark); border:1px solid rgba(58,175,169,0.3); border-radius:50px; padding:4px 16px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:24px; }
+  .login-box h2 { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .login-box p { font-size:13.5px; color:var(--slate); margin-bottom:28px; }
+  .login-box input { width:100%; padding:13px 16px; border-radius:12px; border:1.5px solid rgba(26,43,74,0.13); font-family:'DM Sans',sans-serif; font-size:15px; color:var(--navy); background:var(--off); outline:none; transition:border-color 0.2s; margin-bottom:12px; text-align:center; letter-spacing:4px; font-size:20px; }
+  .login-box input:focus { border-color:var(--teal); background:white; }
+  .login-box input::placeholder { letter-spacing:1px; font-size:14px; color:#aaa; }
+  .login-btn { width:100%; padding:14px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--teal),var(--teal-dark)); color:white; border-radius:12px; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; box-shadow:0 6px 22px rgba(58,175,169,0.32); transition:all 0.2s; }
+  .login-btn:hover { transform:translateY(-1px); box-shadow:0 9px 28px rgba(58,175,169,0.44); }
+  .login-err { color:#ef4444; font-size:13px; margin-top:10px; display:none; }
+
+  /* DASHBOARD */
+  .dashboard { display:none; min-height:100vh; }
+  .dashboard.on { display:block; }
+
+  /* DASH NAV */
+  .dnav { background:var(--navy); padding:0 5%; height:64px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 20px rgba(0,0,0,0.2); position:sticky; top:0; z-index:50; }
+  .dnav-logo { display:flex; align-items:center; gap:10px; }
+  .dnav-logo .mhc { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:700; color:white; }
+  .dnav-logo .vitals { font-size:9px; font-weight:600; color:var(--teal); letter-spacing:3px; text-transform:uppercase; }
+  .dnav-right { display:flex; align-items:center; gap:14px; }
+  .dnav-badge { background:rgba(58,175,169,0.2); color:var(--teal-light); border:1px solid rgba(58,175,169,0.3); padding:4px 12px; border-radius:50px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+  .logout-btn { background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); border:none; padding:8px 18px; border-radius:8px; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; transition:all 0.2s; }
+  .logout-btn:hover { background:rgba(255,255,255,0.18); color:white; }
+
+  /* STATS BAR */
+  .stats-bar { background:white; border-bottom:1px solid rgba(58,175,169,0.1); padding:18px 5%; display:flex; gap:20px; flex-wrap:wrap; }
+  .stat { display:flex; align-items:center; gap:10px; }
+  .stat-ico { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+  .stat-ico.all { background:rgba(58,175,169,0.12); }
+  .stat-ico.hold { background:rgba(245,158,11,0.12); }
+  .stat-ico.conf { background:rgba(34,197,94,0.12); }
+  .stat-n { font-size:20px; font-weight:700; color:var(--navy); line-height:1; }
+  .stat-lbl { font-size:11px; color:var(--slate); font-weight:500; }
+
+  /* MAIN CONTENT */
+  .dash-main { max-width:1100px; margin:0 auto; padding:32px 5%; }
+
+  /* FILTER TABS */
+  .filter-tabs { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; align-items:center; }
+  .ftab { padding:9px 22px; border-radius:50px; border:1.5px solid rgba(26,43,74,0.12); background:white; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--slate); transition:all 0.2s; box-shadow:0 2px 8px rgba(26,43,74,0.05); }
+  .ftab.active { background:var(--teal); border-color:var(--teal); color:white; font-weight:600; box-shadow:0 4px 14px rgba(58,175,169,0.3); }
+  .ftab:not(.active):hover { border-color:var(--teal); color:var(--teal); }
+  .month-filter { margin-left:auto; padding:8px 16px; border-radius:8px; border:1.5px solid rgba(26,43,74,0.12); font-family:'DM Sans',sans-serif; font-size:13px; color:var(--navy); background:white; outline:none; cursor:pointer; }
+
+  /* BOOKING CARDS */
+  .bookings-list { display:flex; flex-direction:column; gap:12px; }
+  .bcard { background:white; border-radius:16px; padding:20px 24px; border:1px solid rgba(26,43,74,0.08); box-shadow:0 3px 16px rgba(26,43,74,0.06); display:grid; grid-template-columns:1.4fr 1.4fr 0.8fr auto; gap:16px; align-items:center; transition:box-shadow 0.2s; }
+  .bcard:hover { box-shadow:0 6px 24px rgba(26,43,74,0.1); }
+  .bcard.hold { border-left:4px solid var(--amber); }
+  .bcard.confirmed { border-left:4px solid var(--emerald); }
+  .bc-name { font-weight:600; font-size:15px; color:var(--navy); }
+  .bc-detail { font-size:12px; color:var(--slate); margin-top:3px; }
+  .bc-slot-date { font-size:13px; color:var(--navy); font-weight:500; }
+  .bc-slot-time { font-size:12px; color:var(--slate); margin-top:2px; }
+  .bc-token { font-size:11px; color:rgba(26,43,74,0.35); font-weight:600; letter-spacing:0.5px; margin-top:5px; }
+  .sbadge { padding:5px 14px; border-radius:50px; font-size:12px; font-weight:600; display:inline-flex; align-items:center; gap:5px; }
+  .sbadge.hold { background:rgba(245,158,11,0.12); color:#92400e; border:1px solid rgba(245,158,11,0.3); }
+  .sbadge.confirmed { background:rgba(34,197,94,0.12); color:#166534; border:1px solid rgba(34,197,94,0.3); }
+  .bc-actions { display:flex; flex-direction:column; gap:7px; }
+  .abtn { padding:8px 16px; border-radius:9px; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:12.5px; font-weight:600; transition:all 0.2s; width:100%; }
+  .abtn.ok { background:rgba(34,197,94,0.12); color:#166534; border:1px solid rgba(34,197,94,0.3); }
+  .abtn.ok:hover { background:var(--emerald); color:white; border-color:var(--emerald); }
+  .abtn.rm { background:rgba(239,68,68,0.1); color:#991b1b; border:1px solid rgba(239,68,68,0.25); }
+  .abtn.rm:hover { background:#ef4444; color:white; border-color:#ef4444; }
+
+  .empty { text-align:center; padding:60px 20px; color:var(--slate); }
+  .empty .ico { font-size:40px; margin-bottom:12px; }
+  .empty p { font-size:14px; }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:22px; right:22px; background:var(--navy); color:white; padding:12px 18px; border-radius:12px; font-size:14px; font-weight:500; border-left:4px solid var(--teal); box-shadow:0 8px 28px rgba(0,0,0,0.22); z-index:300; transform:translateY(80px); opacity:0; transition:all 0.3s; }
+  .toast.on { transform:translateY(0); opacity:1; }
+
+  @media(max-width:780px) { .bcard { grid-template-columns:1fr 1fr; } .bc-actions { grid-column:1/-1; flex-direction:row; } }
+  @media(max-width:500px) { .bcard { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="38" height="38" viewBox="0 0 42 42" fill="none">
+        <circle cx="21" cy="21" r="21" fill="url(#lg)"/>
+        <path d="M10 27 L15 18 L21 24 L27 18 L32 27" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="21" cy="13" r="3" fill="white"/>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="42" y2="42"><stop offset="0%" stop-color="#1a2b4a"/><stop offset="100%" stop-color="#3aafa9"/></linearGradient></defs>
+      </svg>
+      <div><div class="mhc">MHC</div><div class="vitals">VITALS</div></div>
+    </div>
+    <div class="login-badge">Admin Panel</div>
+    <h2>Appointment<br>Management</h2>
+    <p>Enter your admin password to manage bookings</p>
+    <input type="password" id="passInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Access Dashboard →</button>
+    <div class="login-err" id="loginErr">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+  <div class="dnav">
+    <div class="dnav-logo">
+      <svg width="36" height="36" viewBox="0 0 42 42" fill="none">
+        <circle cx="21" cy="21" r="21" fill="url(#dlg)"/>
+        <path d="M10 27 L15 18 L21 24 L27 18 L32 27" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="21" cy="13" r="3" fill="white"/>
+        <defs><linearGradient id="dlg" x1="0" y1="0" x2="42" y2="42"><stop offset="0%" stop-color="#1a2b4a"/><stop offset="100%" stop-color="#3aafa9"/></linearGradient></defs>
+      </svg>
+      <div><div class="mhc">MHC Vitals</div><div class="vitals">Admin Dashboard</div></div>
+    </div>
+    <div class="dnav-right">
+      <span class="dnav-badge">🔐 Admin</span>
+      <a href="index.html" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:13px;">← Main Site</a>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="stats-bar" id="statsBar"></div>
+
+  <div class="dash-main">
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="setFilter('all',this)">All Bookings</button>
+      <button class="ftab" onclick="setFilter('hold',this)">On Hold</button>
+      <button class="ftab" onclick="setFilter('confirmed',this)">Confirmed</button>
+      <select class="month-filter" id="monthFilter" onchange="renderDash()">
+        <option value="">All Months</option>
+        <option value="2025-06">June 2025</option>
+        <option value="2025-07">July 2025</option>
+      </select>
+    </div>
+    <div class="bookings-list" id="bList"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SK='mhcv3';
+const PW='mhcadmin2025';
+const SLOTS=[{id:'AM',lbl:'11:00 AM – 12:00 PM'},{id:'PM1',lbl:'5:00 PM – 6:00 PM'},{id:'PM2',lbl:'6:00 PM – 7:00 PM'}];
+let curFilter='all';
+
+const getB=()=>{ try{return JSON.parse(localStorage.getItem(SK))||[];}catch{return[];} };
+const saveB=d=>localStorage.setItem(SK,JSON.stringify(d));
+const fmtD=ds=>{ const[y,m,d]=ds.split('-').map(Number); return new Date(y,m-1,d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); };
+const slotLbl=id=>SLOTS.find(s=>s.id===id)?.lbl||id;
+
+function login(){
+  const p=document.getElementById('passInput').value;
+  const err=document.getElementById('loginErr');
+  if(p===PW){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('dashboard').classList.add('on');
+    renderDash();
+  } else {
+    err.style.display='block';
+    document.getElementById('passInput').value='';
+    document.getElementById('passInput').focus();
+  }
+}
+
+function logout(){
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('dashboard').classList.remove('on');
+  document.getElementById('passInput').value='';
+  document.getElementById('loginErr').style.display='none';
+}
+
+function setFilter(f,btn){
+  curFilter=f;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderDash();
+}
+
+function renderDash(){
+  let data=getB();
+  const mo=document.getElementById('monthFilter').value;
+
+  // Stats
+  const all=data.length;
+  const hold=data.filter(b=>b.status==='hold').length;
+  const conf=data.filter(b=>b.status==='confirmed').length;
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat"><div class="stat-ico all">📋</div><div><div class="stat-n">${all}</div><div class="stat-lbl">Total Bookings</div></div></div>
+    <div class="stat"><div class="stat-ico hold">⏳</div><div><div class="stat-n">${hold}</div><div class="stat-lbl">On Hold</div></div></div>
+    <div class="stat"><div class="stat-ico conf">✅</div><div><div class="stat-n">${conf}</div><div class="stat-lbl">Confirmed</div></div></div>
+  `;
+
+  // Filter
+  if(curFilter!=='all') data=data.filter(b=>b.status===curFilter);
+  if(mo) data=data.filter(b=>b.date.startsWith(mo));
+  data=data.sort((a,b)=>new Date(b.at)-new Date(a.at));
+
+  const el=document.getElementById('bList');
+  if(!data.length){ el.innerHTML=`<div class="empty"><div class="ico">📭</div><p>No bookings found for selected filter.</p></div>`; return; }
+
+  el.innerHTML=data.map(b=>`
+    <div class="bcard ${b.status}" id="bc-${b.id}">
+      <div>
+        <div class="bc-name">${b.name}</div>
+        <div class="bc-detail">📞 ${b.phone}</div>
+        <div class="bc-detail">✉️ ${b.email}</div>
+        ${b.reason?`<div class="bc-detail">📌 ${b.reason}</div>`:''}
+        <div class="bc-token">Token: ${b.id}</div>
+      </div>
+      <div>
+        <div class="bc-slot-date">📅 ${fmtD(b.date)}</div>
+        <div class="bc-slot-time">🕐 ${slotLbl(b.slot)}</div>
+        ${b.message?`<div class="bc-detail" style="margin-top:6px;font-style:italic">"${b.message.substring(0,60)}${b.message.length>60?'…':''}"</div>`:''}
+        <div class="bc-detail" style="margin-top:6px">Requested: ${new Date(b.at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div>
+      </div>
+      <div>
+        <div class="sbadge ${b.status}">${b.status==='hold'?'🟡 On Hold':'🟢 Confirmed'}</div>
+      </div>
+      <div class="bc-actions">
+        ${b.status==='hold'?`<button class="abtn ok" onclick="confirmB('${b.id}')">✓ Confirm</button>`:''}
+        <button class="abtn rm" onclick="removeB('${b.id}')">✕ Remove</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function confirmB(id){
+  const data=getB(); const i=data.findIndex(b=>b.id===id);
+  if(i>-1){ data[i].status='confirmed'; saveB(data); renderDash(); toast('✅ Booking confirmed!'); }
+}
+
+function removeB(id){
+  if(!confirm('Remove this booking permanently?')) return;
+  saveB(getB().filter(b=>b.id!==id));
+  renderDash(); toast('Booking removed.');
+}
+
+function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('on'); setTimeout(()=>el.classList.remove('on'),3000); }
+</script>
+</body>
+</html>
