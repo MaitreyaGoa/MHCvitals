@@ -166,6 +166,49 @@
 
   @media(max-width:900px) { .hero { grid-template-columns: 1fr; padding-top: 90px; } .hero-right { display: none; } .svc-grid { grid-template-columns: repeat(3,1fr); } .about { flex-direction: column; align-items: center; } }
   @media(max-width:600px) { .svc-grid { grid-template-columns: repeat(2,1fr); } .promises { grid-template-columns: 1fr; } .nav-links a:not(.nav-book) { display: none; } .hero h1 { font-size: 42px; } }
+
+  /* FOUNDER STRIP */
+  .founder-strip { padding: 60px 6%; background: var(--navy); }
+  .founder-strip-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; gap: 36px; flex-wrap: wrap; }
+  .fs-avatar { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, rgba(58,175,169,0.3), rgba(58,175,169,0.1)); border: 3px solid rgba(58,175,169,0.5); display: flex; align-items: center; justify-content: center; font-size: 48px; flex-shrink: 0; }
+  .fs-content { flex: 1; min-width: 260px; }
+  .fs-tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+  .fs-name { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; color: white; margin-bottom: 12px; line-height: 1.2; }
+  .fs-creds { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .fs-bio { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.75; }
+
+  /* TEAM */
+  .team { padding: 80px 6%; background: var(--off); }
+  .team-sub { text-align: center; font-size: 15px; color: var(--slate); margin-top: -32px; margin-bottom: 48px; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1060px; margin: 0 auto; }
+  .tcard { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(26,43,74,0.08); border: 1px solid rgba(26,43,74,0.07); transition: transform 0.25s, box-shadow 0.25s; }
+  .tcard:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(26,43,74,0.13); }
+  .tcard-top { padding: 28px 20px 20px; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .t1 { background: linear-gradient(135deg, #1a2b4a, #2a5470); }
+  .t2 { background: linear-gradient(135deg, #2a8f8a, #3aafa9); }
+  .t3 { background: linear-gradient(135deg, #4c6b8a, #2a5470); }
+  .t4 { background: linear-gradient(135deg, #4caf7d, #2a8f6a); }
+  .t5 { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+  .t-avatar { font-size: 36px; margin-bottom: 8px; }
+  .t-spec-badge { background: rgba(255,255,255,0.2); color: white; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 12px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3); }
+  .tcard-body { padding: 18px 20px 20px; }
+  .t-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+  .t-spec { font-size: 12.5px; color: var(--slate); line-height: 1.5; margin-bottom: 12px; }
+  .t-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ttag { background: rgba(58,175,169,0.09); color: var(--teal-dark); border: 1px solid rgba(58,175,169,0.25); border-radius: 50px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+  /* Book card */
+  .tcard-book { background: linear-gradient(145deg, var(--navy), #1a3a5c); border: none; display: flex; align-items: center; justify-content: center; min-height: 220px; }
+  .tcard-book:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(26,43,74,0.25); }
+  .tcard-book-inner { text-align: center; padding: 28px 20px; }
+  .tb-ico { font-size: 32px; margin-bottom: 12px; }
+  .tb-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: white; margin-bottom: 8px; }
+  .tb-sub { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 18px; }
+  .tb-btn { background: var(--teal); color: white; padding: 11px 26px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 600; display: inline-block; transition: background 0.2s, transform 0.2s; box-shadow: 0 4px 14px rgba(58,175,169,0.4); }
+  .tb-btn:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+  @media(max-width:900px) { .team-grid { grid-template-columns: repeat(2,1fr); } .founder-strip-inner { flex-direction: column; text-align: center; } .fs-creds { justify-content: center; } }
+  @media(max-width:580px) { .team-grid { grid-template-columns: 1fr; } }
+
 </style>
 </head>
 <body>
@@ -173,22 +216,11 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <svg class="logo-svg" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="21" cy="21" r="21" fill="url(#nlg)"/>
-      <path d="M10 27 L15 18 L21 24 L27 18 L32 27" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <circle cx="21" cy="13" r="3" fill="white"/>
-      <path d="M7 31 Q21 38 35 31" stroke="rgba(255,255,255,0.45)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      <path d="M9 11 Q21 4 33 11" stroke="rgba(255,255,255,0.45)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      <defs><linearGradient id="nlg" x1="0" y1="0" x2="42" y2="42"><stop offset="0%" stop-color="#1a2b4a"/><stop offset="100%" stop-color="#3aafa9"/></linearGradient></defs>
-    </svg>
-    <div class="logo-text">
-      <div class="mhc">MHC</div>
-      <div class="vitals">VITALS</div>
-    </div>
+    <img src="logo.jpg" alt="MHC Vitals Logo" style="width:54px;height:54px;border-radius:50%;object-fit:cover;">
   </a>
   <div class="nav-links">
     <a href="#services">Services</a>
-    <a href="#about">About</a>
+    <a href="#team">Our Team</a>
     <a href="https://www.facebook.com/MHCvitals" target="_blank">Facebook</a>
     <a href="booking.html" class="nav-book">📅 Book Now</a>
   </div>
@@ -203,7 +235,6 @@
     <p class="hero-desc">Mental wellness, career guidance &amp; personal growth support — in a safe, confidential, and compassionate space designed just for you.</p>
     <div class="hero-btns">
       <a href="booking.html" class="btn-book">📅 Book a Session</a>
-      <a href="#about" class="btn-ghost">Meet Dr. Namrata</a>
     </div>
     <div class="social-pills">
       <a href="https://wa.me/917358425108" target="_blank" class="spill spill-wa">
@@ -222,9 +253,9 @@
     <div class="founder-card">
       <div class="fc-top">
         <div class="fc-badge">FOUNDER</div>
-        <div class="fc-avatar">👩‍⚕️</div>
+        <div class="fc-avatar" style="overflow:hidden;padding:0;"><img src="logo.jpg" alt="MHC Vitals" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
         <div class="fc-name">Dr. Namrata<br>Prabhu Hinde</div>
-        <div class="fc-role">Mental Health &amp; Career Counsellor</div>
+        <div class="fc-role">Founder &amp; Director, MHC Vitals</div>
       </div>
       <div class="fc-bottom">
         <div class="fc-pills">
@@ -252,33 +283,91 @@
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about fade-up" id="about">
-  <div class="about-img">
-    <div class="about-visual">
-      <div class="av-avatar">👩‍⚕️</div>
-      <div class="av-name">Dr. Namrata<br>Prabhu Hinde</div>
-      <div class="av-title">Founder &amp; Lead Counsellor</div>
+<!-- FOUNDER STRIP -->
+<section class="founder-strip fade-up" id="about">
+  <div class="founder-strip-inner">
+    <div class="fs-avatar" style="overflow:hidden;padding:0;"><img src="logo.jpg" alt="MHC Vitals" style="width:110px;height:110px;object-fit:cover;border-radius:50%;"></div>
+    <div class="fs-content">
+      <div class="fs-tag">Founder &amp; Director</div>
+      <h2 class="fs-name">Dr. Namrata Prabhu Hinde</h2>
+      <div class="fs-creds">
+        <span class="cred">Mental Health Expert</span>
+        <span class="cred">Career Counsellor</span>
+        <span class="cred">Life Coach</span>
+      </div>
+      <p class="fs-bio">Dr. Namrata Prabhu Hinde founded MHC Vitals with a singular mission — to make quality mental health and career guidance accessible to everyone. Under her leadership, MHC Vitals brings together a diverse team of certified counsellors, each a specialist in their domain, to ensure every individual receives the right support.</p>
     </div>
-    <div class="av-badge">CERTIFIED<br>EXPERT</div>
   </div>
-  <div class="about-content">
-    <p class="sec-label">Meet the Founder</p>
-    <h2>Dr. Namrata<br>Prabhu Hinde</h2>
-    <div class="creds">
-      <span class="cred">Mental Health Expert</span>
-      <span class="cred">Career Counsellor</span>
-      <span class="cred">Life Coach</span>
+</section>
+
+<!-- TEAM -->
+<section class="team fade-up" id="team">
+  <p class="sec-label">Our Counsellors</p>
+  <h2 class="sec-title" style="color:var(--navy)">Expert Guidance from <em style="color:var(--teal)">Diverse Backgrounds</em></h2>
+  <p class="team-sub">Every counsellor at MHC Vitals is certified, experienced, and deeply committed to your wellbeing.</p>
+  <div class="team-grid">
+    <div class="tcard">
+      <div class="tcard-top t1">
+        <div class="t-avatar">🧠</div>
+        <div class="t-spec-badge">Mental Health</div>
+      </div>
+      <div class="tcard-body">
+        <div class="t-name">Clinical Psychologist</div>
+        <div class="t-spec">Anxiety · Depression · Stress Management</div>
+        <div class="t-tags"><span class="ttag">CBT</span><span class="ttag">Mindfulness</span><span class="ttag">Trauma</span></div>
+      </div>
     </div>
-    <p>Dr. Namrata Prabhu Hinde is a compassionate mental health professional and certified career counsellor who founded MHC Vitals with a singular mission — to help individuals heal, discover their strengths, and create a fulfilling life.</p>
-    <p>With deep expertise in mental wellness, personal development, and career guidance, she provides a safe, non-judgmental space where every individual is truly heard, understood, and empowered to grow.</p>
-    <div class="promises">
-      <div class="pm"><div class="pm-dot"></div><span>Safe &amp; Confidential Space</span></div>
-      <div class="pm"><div class="pm-dot"></div><span>Expert Guidance</span></div>
-      <div class="pm"><div class="pm-dot"></div><span>Personalized Support</span></div>
-      <div class="pm"><div class="pm-dot"></div><span>Trusted &amp; Empathetic</span></div>
-      <div class="pm"><div class="pm-dot"></div><span>Empathy First Approach</span></div>
-      <div class="pm"><div class="pm-dot"></div><span>Holistic Wellbeing</span></div>
+    <div class="tcard">
+      <div class="tcard-top t2">
+        <div class="t-avatar">🎯</div>
+        <div class="t-spec-badge">Career</div>
+      </div>
+      <div class="tcard-body">
+        <div class="t-name">Career Counsellor</div>
+        <div class="t-spec">Career Planning · Aptitude · Goal Setting</div>
+        <div class="t-tags"><span class="ttag">Psychometrics</span><span class="ttag">MBTI</span><span class="ttag">Coaching</span></div>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-top t3">
+        <div class="t-avatar">🎓</div>
+        <div class="t-spec-badge">Academic</div>
+      </div>
+      <div class="tcard-body">
+        <div class="t-name">Academic Counsellor</div>
+        <div class="t-spec">Study Skills · Exam Stress · Learning Difficulties</div>
+        <div class="t-tags"><span class="ttag">Students</span><span class="ttag">Parents</span><span class="ttag">Learning</span></div>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-top t4">
+        <div class="t-avatar">🤝</div>
+        <div class="t-spec-badge">Relationships</div>
+      </div>
+      <div class="tcard-body">
+        <div class="t-name">Relationship Counsellor</div>
+        <div class="t-spec">Family · Couples · Social Dynamics</div>
+        <div class="t-tags"><span class="ttag">Family Therapy</span><span class="ttag">Communication</span></div>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-top t5">
+        <div class="t-avatar">🌱</div>
+        <div class="t-spec-badge">Life Coach</div>
+      </div>
+      <div class="tcard-body">
+        <div class="t-name">Life &amp; Wellness Coach</div>
+        <div class="t-spec">Personal Growth · Confidence · Purpose</div>
+        <div class="t-tags"><span class="ttag">NLP</span><span class="ttag">Holistic</span><span class="ttag">Wellbeing</span></div>
+      </div>
+    </div>
+    <div class="tcard tcard-book">
+      <div class="tcard-book-inner">
+        <div class="tb-ico">📅</div>
+        <div class="tb-title">Find Your Counsellor</div>
+        <div class="tb-sub">Tell us what you need — we'll match you with the right specialist.</div>
+        <a href="booking.html" class="tb-btn">Book a Session</a>
+      </div>
     </div>
   </div>
 </section>
@@ -286,7 +375,7 @@
 <!-- CTA STRIP -->
 <section class="cta-strip fade-up">
   <h2>Ready to Start Your <em>Journey?</em></h2>
-  <p>Book a session with Dr. Namrata or reach out — we're here for you.</p>
+  <p>Our team of expert counsellors is here for you — reach out anytime.</p>
   <div class="cta-btns">
     <a href="booking.html" class="cta-main">📅 Book an Appointment</a>
     <a href="https://wa.me/917358425108" target="_blank" class="cta-wa">
